@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SenoCam - AI-Powered Visual Learning</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f4c75 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-effect {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-glow {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+        }
+        
+        .btn-glow:hover::before {
+            left: 100%;
+        }
+        
+        .btn-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .slide-up {
+            animation: slideUp 0.6s ease-out forwards;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .prose-dark {
+            color: #e2e8f0;
+            line-height: 1.8;
+        }
+
+        .prose-dark h2 {
+            color: #00d4ff;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .prose-dark h3 {
+            color: #0099ff;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .prose-dark p {
+            margin-bottom: 1rem;
+        }
+
+        .prose-dark ul, .prose-dark ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .prose-dark li {
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-card {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            border-color: rgba(0, 212, 255, 0.8);
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        .modal-backdrop {
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            animation: slideUp 0.3s ease;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.5);
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: rgba(0, 212, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 212, 255, 0.6);
+        }
+    </style>
+</head>
+<body class="text-slate-200">
+    <div id="app" class="min-h-screen w-full">
+        <!-- Homepage -->
+        <div id="homepage" class="min-h-screen flex flex-col items-center justify-center px-4">
+            <!-- Background decorative elements -->
+            <div class="absolute top-0 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-cyan-400 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
+            
+            <div class="relative z-10 text-center fade-in">
+                <!-- Logo/Title -->
+                <div class="mb-12 slide-up">
+                    <h1 class="text-7xl font-bold mb-2">
+                        <span class="gradient-text">SenoCam</span>
+                    </h1>
+                    <p class="text-slate-400 text-lg">AI-Powered Visual Learning</p>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex gap-6 justify-center flex-wrap" style="margin-top: 4rem;">
+                    <button 
+                        class="btn-glow px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg"
+                        onclick="showModal('description')"
+                    >
+                        Description
+                    </button>
+                    <button 
+                        class="btn-glow px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-semibold rounded-lg"
+                        onclick="showModal('privacy')"
+                    >
+                        Privacy Policy
+                    </button>
+                </div>
+
+                <!-- Contact Footer -->
+                <div class="mt-16 text-center">
+                    <p class="text-slate-400 mb-4">Questions? Get in touch with us</p>
+                    <div class="flex gap-4 justify-center flex-wrap text-sm">
+                        <a href="https://wa.me/6285730788271" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-cyan-300 transition">
+                            💬 WhatsApp
+                        </a>
+                        <span class="text-slate-600">•</span>
+                        <a href="mailto:privacy@mykisah.app" class="text-cyan-400 hover:text-cyan-300 transition">
+                            📧 Email
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Background -->
+        <div id="modal-bg" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden modal-backdrop" onclick="closeModal()"></div>
+
+        <!-- Description Modal -->
+        <div id="description-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center px-4">
+            <div class="modal-content glass-effect rounded-2xl max-w-3xl max-h-[90vh] overflow-y-auto scrollbar-thin w-full">
+                <div class="p-8 md:p-12">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold gradient-text">About SenoCam</h2>
+                        <button onclick="closeModal()" class="text-slate-400 hover:text-white text-2xl">✕</button>
+                    </div>
+
+                    <div class="prose-dark space-y-4">
+                        <p>SenoCam is a mobile application that combines artificial intelligence technology with real-time camera capabilities to deliver an interactive visual learning experience. This app is designed for students, researchers, and anyone who wants to deepen their knowledge of the objects around them.</p>
+
+                        <h3>HOW IT WORKS</h3>
+                        <p>Open the app and point your camera at any object. SenoCam will automatically detect and identify the object within seconds. Access in-depth information about each scanned object through the interactive learning feature.</p>
+
+                        <h3>KEY FEATURES</h3>
+                        <ul>
+                            <li><strong>Real-Time Detection:</strong> Advanced AI technology that recognizes objects with high accuracy directly through the camera</li>
+                            <li><strong>Interactive Learning:</strong> Chat directly with the system to obtain more information about each object</li>
+                            <li><strong>Scan History:</strong> All scan results are saved automatically, allowing you to access them anytime</li>
+                            <li><strong>Intuitive Interface:</strong> Clean and user-friendly design for all audiences</li>
+                            <li><strong>Fast Performance:</strong> Optimized to run smoothly on a wide range of Android devices</li>
+                        </ul>
+
+                        <h3>WHAT YOU CAN USE SENOCAM FOR</h3>
+                        <ul>
+                            <li><strong>Education:</strong> Students can accelerate their learning process in a more interactive way</li>
+                            <li><strong>Research:</strong> Document and analyze objects for academic research purposes</li>
+                            <li><strong>Hobbies:</strong> Photography or collecting enthusiasts can identify and learn about their subjects</li>
+                            <li><strong>Outdoor Exploration:</strong> Learn about plants, animals, and natural phenomena while outdoors</li>
+                            <li><strong>Shopping:</strong> Identify products or similar items for easier comparison</li>
+                        </ul>
+
+                        <h3>PRIVACY & SECURITY</h3>
+                        <p>Your scan data is securely stored on your device. We do not share your personal information with third parties. Camera access is used solely for real-time detection and does not record video permanently.</p>
+
+                        <h3>MINIMUM REQUIREMENTS</h3>
+                        <ul>
+                            <li>Android 8.0 or higher</li>
+                            <li>At least 100MB of storage space</li>
+                            <li>Device camera access</li>
+                            <li>Internet connection for certain features</li>
+                        </ul>
+
+                        <p class="pt-4 border-t border-slate-600">Start using SenoCam now and explore the world in a whole new way. This application continues to be developed with new and exciting features based on user feedback.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy Policy Modal -->
+        <div id="privacy-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center px-4">
+            <div class="modal-content glass-effect rounded-2xl max-w-3xl max-h-[90vh] overflow-y-auto scrollbar-thin w-full">
+                <div class="p-8 md:p-12">
+                    <div class="flex justify-between items-center mb-6 sticky top-0 bg-slate-900/80 backdrop-blur -m-8 mb-6 p-8 pb-6">
+                        <h2 class="text-3xl font-bold gradient-text">Privacy Policy</h2>
+                        <button onclick="closeModal()" class="text-slate-400 hover:text-white text-2xl">✕</button>
+                    </div>
+
+                    <div class="prose-dark space-y-4">
+                        <p class="text-sm text-slate-400 mb-6"><strong>Last Updated:</strong> December 3, 2025</p>
+
+                        <h3>1. Introduction</h3>
+                        <p>MyKisah ("MyKisah", "we", "us", or "our") operates the SenoCam mobile application and related services (the "App"). This Privacy Policy explains how we collect, use, disclose, and safeguard information when you use the App.</p>
+                        <p>By accessing or using SenoCam, you acknowledge that you have read, understood, and agree to this Privacy Policy. If you do not agree, you should not use the App.</p>
+
+                        <h3>2. Relationship with SENOPATI</h3>
+                        <p>SenoCam is developed and operated by MyKisah, an independent organization. We are not owned, operated, or controlled by SENOPATI, and we do not represent ourselves as SENOPATI.</p>
+                        <p>SenoCam integrates with a non‑public SENOPATI API under a separate permission and collaboration arrangement. That API is maintained by SENOPATI's own development team and is not publicly available to external developers.</p>
+                        <p>Any references to SENOPATI within the App relate solely to this technical integration and do not imply joint operation, co‑branding of services, or shared ownership of user data.</p>
+
+                        <h3>3. Information We Collect</h3>
+                        <p><strong>3.1 Information You Provide Directly</strong></p>
+                        <p>We may collect information you provide when you:</p>
+                        <ul>
+                            <li>Use in‑app contact or feedback forms</li>
+                            <li>Communicate with us via email or support channels</li>
+                            <li>Optionally provide notes or labels attached to scans</li>
+                        </ul>
+                        <p>SenoCam does not require account registration by default. If in the future account features are introduced, this policy will be updated to describe any additional data collected.</p>
+
+                        <p class="mt-4"><strong>3.2 Information Collected Automatically</strong></p>
+                        <p>When you use the App, we may automatically collect:</p>
+                        <ul>
+                            <li>Device information (model, operating system version, basic hardware data)</li>
+                            <li>App version and basic diagnostics</li>
+                            <li>Non‑identifying usage data such as feature usage patterns and performance metrics</li>
+                        </ul>
+                        <p>This information is used in an aggregated or pseudonymized form where possible and is not used to personally identify you.</p>
+
+                        <p class="mt-4"><strong>3.3 Camera and Image Data</strong></p>
+                        <p>SenoCam requires access to your device camera in order to perform real‑time object detection.</p>
+                        <ul>
+                            <li>Camera input is processed locally on your device for detection and recognition purposes.</li>
+                            <li>By default, we do not upload raw camera images or video to MyKisah or SENOPATI servers.</li>
+                            <li>If the App later introduces optional cloud‑based features that require sending processed data to a server, this will be clearly indicated and will require your explicit consent.</li>
+                        </ul>
+
+                        <p class="mt-4"><strong>3.4 Scan History and Local Data</strong></p>
+                        <p>When you perform scans, the App may store locally on your device:</p>
+                        <ul>
+                            <li>Detected object names or categories</li>
+                            <li>Detection confidence or related metadata</li>
+                            <li>Timestamps of scans</li>
+                            <li>Optional notes or descriptions you add</li>
+                        </ul>
+                        <p>This information is stored in your device's local storage or local database. MyKisah does not automatically receive this data unless a specific feature clearly states that data will be transmitted and you consent.</p>
+
+                        <h3>4. How We Use Information</h3>
+                        <p>We use information for the following purposes:</p>
+                        <ul>
+                            <li>To provide, operate, and maintain SenoCam's core features</li>
+                            <li>To perform local object detection and display results to you</li>
+                            <li>To improve stability, performance, and user experience</li>
+                            <li>To respond to support requests or technical issues you report</li>
+                            <li>To comply with applicable laws or protect our legal rights</li>
+                        </ul>
+                        <p>Where feasible, we use aggregated or anonymized information so that it does not identify you personally.</p>
+
+                        <h3>5. Data Storage, Processing, and Retention</h3>
+                        <ul>
+                            <li>Scan history and related data are stored locally on your device under your control.</li>
+                            <li>MyKisah does not automatically create cloud backups of your data. Any backup via your operating system (for example, Google or Apple backups) is governed by those providers' privacy terms.</li>
+                            <li>You can delete scan data from within the App (where supported) or by uninstalling the App, which removes locally stored data associated with SenoCam.</li>
+                            <li>If we introduce optional server‑side or cloud features in the future, we will describe the additional storage locations, retention periods, and controls in an updated version of this policy.</li>
+                        </ul>
+
+                        <h3>6. Data Sharing and Transfers</h3>
+                        <p><strong>6.1 Sharing with SENOPATI</strong></p>
+                        <p>In the current version of SenoCam, integration with the SENOPATI API is designed to minimize or avoid transmission of personal data. If any information is sent through the SENOPATI API, it is limited to what is necessary for the requested functionality and is handled under contractual terms or permissions between MyKisah and SENOPATI.</p>
+                        <p>We do not grant SENOPATI independent rights to use your personal data for their own unrelated purposes through SenoCam. Any processing they perform is confined to providing the underlying functionality of the private API.</p>
+
+                        <p class="mt-4"><strong>6.2 Third‑Party Service Providers</strong></p>
+                        <p>We may use third‑party providers (for example, analytics or error‑logging tools) to help us operate and improve the App. Where used, these providers only receive the limited information needed to perform their services and are contractually obligated to protect that information and use it solely on our instructions.</p>
+
+                        <p class="mt-4"><strong>6.3 Legal and Safety Requirements</strong></p>
+                        <p>We may disclose information if required to do so by law, regulation, legal process, or governmental request, or if we reasonably believe disclosure is necessary to protect the rights, property, or safety of MyKisah, our users, or others.</p>
+
+                        <p class="mt-4"><strong>6.4 Business Changes</strong></p>
+                        <p>If MyKisah is involved in a merger, acquisition, restructuring, or sale of assets, information may be transferred as part of that transaction, subject to continued protection consistent with this Privacy Policy.</p>
+
+                        <h3>7. Permissions Used by the App</h3>
+                        <p>The App may request the following permissions:</p>
+                        <ul>
+                            <li><strong>Camera:</strong> to capture images for object detection.</li>
+                            <li><strong>Storage or media access:</strong> to cache or locally store scan information where needed.</li>
+                            <li><strong>Network access:</strong> to check for updates, connect to optional online services, or interact with the SENOPATI API when required by a feature.</li>
+                        </ul>
+                        <p>You can manage these permissions at any time in your device settings. Some features may not function without required permissions.</p>
+
+                        <h3>8. Security</h3>
+                        <p>MyKisah implements technical and organizational measures designed to protect information handled by SenoCam against unauthorized access, loss, or misuse. Measures may include:</p>
+                        <ul>
+                            <li>Use of secure communication protocols where network connections are required</li>
+                            <li>Limiting the categories of data transmitted off‑device</li>
+                            <li>Restricting internal access to any server‑side data on a need‑to‑know basis</li>
+                        </ul>
+                        <p>No method of electronic storage or transmission is completely secure, and we cannot guarantee absolute security. You are encouraged to use up‑to‑date device security settings and operating system updates.</p>
+
+                        <h3>9. Your Rights and Choices</h3>
+                        <p>Depending on your jurisdiction, you may have rights such as:</p>
+                        <ul>
+                            <li>Access to information processed about you where we hold it</li>
+                            <li>Request correction of inaccurate information</li>
+                            <li>Request deletion of information we control, subject to legal obligations</li>
+                            <li>Object to or restrict certain types of processing where applicable</li>
+                        </ul>
+                        <p>Because SenoCam is primarily designed to store data locally on your device, many controls are available directly to you through the App (for example, clearing history) or by uninstalling the App. For rights requests relating to any data processed on MyKisah infrastructure, you can contact us using the details below.</p>
+
+                        <h3>10. Children's Privacy</h3>
+                        <p>SenoCam is not directed to children under the age of 13, and MyKisah does not knowingly collect personal information from children under 13. If we learn that we have unintentionally collected personal information from a child under 13, we will take reasonable steps to delete such information.</p>
+
+                        <h3>11. International Use</h3>
+                        <p>If you access SenoCam from a location outside the country where our primary systems are hosted, your information may be processed in countries with different data protection laws. By using the App, you consent to any such transfer and processing consistent with this Privacy Policy.</p>
+
+                        <h3>12. Third‑Party Links</h3>
+                        <p>SenoCam may include links to external websites or services that are not operated by MyKisah or SENOPATI. We are not responsible for the privacy practices or content of those third parties, and you should review their privacy policies before providing any information.</p>
+
+                        <h3>13. Changes to This Privacy Policy</h3>
+                        <p>We may update this Privacy Policy from time to time. When we make material changes, we will revise the "Last Updated" date at the top of this page and, where appropriate, provide additional notice within the App. Your continued use of SenoCam after any changes are posted indicates your acceptance of the updated policy.</p>
+
+                        <h3>14. Contact Us</h3>
+                        <p>If you have any questions, concerns, or requests regarding this Privacy Policy or SenoCam's data practices, you may contact:</p>
+                        <div class="bg-slate-800/50 p-4 rounded-lg my-4">
+                            <p><strong>MyKisah</strong></p>
+                            <p>Email: <a href="mailto:privacy@mykisah.app" class="text-cyan-400 hover:text-cyan-300">privacy@mykisah.app</a></p>
+                        </div>
+                        <p>Please include "SenoCam Privacy" in the subject line so we can route your inquiry appropriately.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showModal(type) {
+            const modalBg = document.getElementById('modal-bg');
+            const descriptionModal = document.getElementById('description-modal');
+            const privacyModal = document.getElementById('privacy-modal');
+
+            modalBg.classList.remove('hidden');
+            
+            if (type === 'description') {
+                descriptionModal.classList.remove('hidden');
+            } else if (type === 'privacy') {
+                privacyModal.classList.remove('hidden');
+            }
+
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modalBg = document.getElementById('modal-bg');
+            const descriptionModal = document.getElementById('description-modal');
+            const privacyModal = document.getElementById('privacy-modal');
+
+            modalBg.classList.add('hidden');
+            descriptionModal.classList.add('hidden');
+            privacyModal.classList.add('hidden');
+
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
